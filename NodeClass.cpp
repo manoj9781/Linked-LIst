@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
 
+
+// Node class
 class Node
 {
 public:
@@ -68,6 +70,8 @@ Node *takeInput()
     return head;
 }
 
+
+// Print the linked list
 void print(Node *head)
 {
     Node *temp = head;
@@ -77,6 +81,8 @@ void print(Node *head)
         temp = temp->next;
     }
 }
+
+//Print the ith NOde of the linkded list
 
 void print(Node *head, int i)
 {
@@ -97,6 +103,8 @@ void print(Node *head, int i)
     }
 }
 
+// Find the lenght and return it
+
 int length(Node *head)
 {
     Node *temp = head;
@@ -112,6 +120,8 @@ int length(Node *head)
     }
     return count;
 }
+
+// Delete the ith Node from the lisnked list
 
 Node *deleteNode(Node *head, int i)
 {
@@ -136,6 +146,8 @@ Node *deleteNode(Node *head, int i)
     delete a;
 }
 
+// Find the lenght recursive
+
 int recursiveLength(Node *head)
 {
     Node *temp = head;
@@ -147,6 +159,8 @@ int recursiveLength(Node *head)
     return ans + 1;
 }
 
+
+// Insert the NOde recursive to the linked list
 Node *insertNodeRecursive(Node *head, int data, int i)
 {
     if (head == NULL)
@@ -172,6 +186,8 @@ Node *insertNodeRecursive(Node *head, int data, int i)
     return head;
 }
 
+// Delete the NOde from the linked list recursive
+
 Node *deleteNodeRecursive(Node *head, int i)
 {
     if (head == NULL)
@@ -191,6 +207,8 @@ Node *deleteNodeRecursive(Node *head, int i)
     return head;
 }
 
+
+// Find the NOde and return the data of the Node
 int findNode(Node * head, int data){
     Node *temp = head;
     int index = -1;
@@ -209,6 +227,8 @@ int findNode(Node * head, int data){
         return -1;
     }
 }
+
+// Append the number of the Node last node to the first in the Linked list
 
 Node *appendLastToFirst(Node *head, int n){
     if(n == 0 || head == NULL){
@@ -231,6 +251,8 @@ Node *appendLastToFirst(Node *head, int n){
     return head;
 }
 
+// Remove the duplictaes Node from the linked List
+
 Node* removeDuplicates(Node *head){
     if(head == NULL){
         return head;
@@ -249,6 +271,8 @@ Node* removeDuplicates(Node *head){
     }
 }
 
+// Find the mid NOde of the linked lIst
+
 Node * midNode(Node* head){
     if(head == NULL){
         return head;
@@ -261,6 +285,8 @@ Node * midNode(Node* head){
     }
     return slow;
 }
+
+// Merge the two Sorted Linked list
 Node *sortedLinkedList(Node *head1, Node *head2){
     Node *head = NULL;
     Node *tail = NULL;
@@ -295,6 +321,8 @@ Node *sortedLinkedList(Node *head1, Node *head2){
     }
     return head;
 }
+
+// Reverse the Linked list AND the complexity of the function is order of n
 Node *reverse(Node *head){
     if(head == NULL || head -> next == NULL){
         return head;
@@ -310,6 +338,34 @@ Node *reverse(Node *head){
     return smallAns;
 }
 
+class Pair{
+    public:
+        Node *head;
+        Node *tail;
+};
+
+Pair reverseList(Node * head){
+    if(head == NULL || head -> next == NULL){
+        Pair ans;
+        ans.head = head;
+        ans.tail = head;
+        return ans;
+    }
+    Pair smallAns = reverseList(head->next);
+    smallAns.tail->next = head;
+    head->next = NULL;
+    Pair ans;
+    ans.head = smallAns.head;
+    ans.tail = head;
+    return ans;
+}
+
+Node *reverseListBetter(Node *head){
+    return reverseList(head).head;
+}
+
+
+// Reverse th elinked list Itetrative
 Node *reverseIterative(Node * head){
     if(head == NULL){
         return head;
@@ -333,7 +389,8 @@ int main()
     // Node *head = input();
 
     Node *head = input();
-    head = reverseIterative(head);
+    head = reverseListBetter(head);
+    // head = reverseIterative(head);
     print(head);
     // Node *head2 = input();
     // Node *head = sortedLinkedList(head1, head2);
