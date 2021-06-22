@@ -1,0 +1,395 @@
+#include <iostream>
+using namespace std;
+
+class Node
+{
+public:
+    int data;
+    Node *next;
+    Node(int data)
+    {
+        this->data = data;
+        next = NULL;
+    }
+};
+
+Node *input()
+{
+
+    //complexity of this function is order of n
+    int data;
+    cin >> data;
+    Node *head = NULL;
+    Node *tail = NULL;
+    while (data != -1)
+    {
+        Node *newNode = new Node(data);
+        if (head == NULL)
+        {
+            head = newNode;
+            tail = newNode;
+        }
+        else
+        {
+            tail->next = newNode;
+            // tail = tail->next;
+            tail = newNode;
+        }
+        cin >> data;
+    }
+    return head;
+}
+
+Node *takeInput()
+{
+
+    //Complexity of this function is order of n square
+    int data;
+    cin >> data;
+    Node *head = NULL;
+    while (data != -1)
+    {
+        Node *newNode = new Node(data);
+        if (head == NULL)
+        {
+            head = newNode;
+        }
+        else
+        {
+            Node *temp = head;
+            while (temp->next != NULL)
+            {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+        cin >> data;
+    }
+    return head;
+}
+
+void print(Node *head)
+{
+    Node *temp = head;
+    while (temp != NULL)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+}
+
+void print(Node *head, int i)
+{
+    Node *temp = head;
+    int count = 0;
+    if (i == 0)
+    {
+        cout << temp->data << endl;
+    }
+    else
+    {
+        while (temp != NULL && count < i)
+        {
+            temp = temp->next;
+            count++;
+        }
+        cout << temp->data << endl;
+    }
+}
+
+int length(Node *head)
+{
+    Node *temp = head;
+    int count = 0;
+    if (temp == NULL)
+    {
+        return 0;
+    }
+    while (temp != NULL)
+    {
+        temp = temp->next;
+        count++;
+    }
+    return count;
+}
+
+Node *deleteNode(Node *head, int i)
+{
+    Node *temp = head;
+    int count = 0;
+    if (i == 0)
+    {
+        temp = temp->next;
+        head = temp;
+        return head;
+    }
+
+    while (temp != NULL && count < i - 1)
+    {
+        temp = temp->next;
+        count++;
+    }
+    Node *a = temp->next;
+    Node *b = a->next;
+    temp->next = b;
+    return head;
+    delete a;
+}
+
+int recursiveLength(Node *head)
+{
+    Node *temp = head;
+    if (temp == NULL)
+    {
+        return 0;
+    }
+    int ans = recursiveLength(temp->next);
+    return ans + 1;
+}
+
+Node *insertNodeRecursive(Node *head, int data, int i)
+{
+    if (head == NULL)
+    {
+        if (i == 0)
+        {
+            Node *newNode = new Node(data);
+            return newNode;
+        }
+        else
+        {
+            return head;
+        }
+    }
+    Node *newNode = new Node(data);
+    if (i == 0)
+    {
+        newNode->next = head;
+        head = newNode;
+        return head;
+    }
+    head->next = insertNodeRecursive(head->next, data, i - 1);
+    return head;
+}
+
+Node *deleteNodeRecursive(Node *head, int i)
+{
+    if (head == NULL)
+    {
+        return head;
+    }
+    if (i == 0)
+    {
+        Node *temp = head;
+        head = head->next;
+        delete temp;
+        return head;
+    }
+
+    Node *ans = deleteNodeRecursive(head->next, i - 1);
+    head->next = ans;
+    return head;
+}
+
+int findNode(Node * head, int data){
+    Node *temp = head;
+    int index = -1;
+    int flag = 0;
+    while(temp != NULL){
+        if(temp -> data == data){
+            flag = 1;
+            return index + 1;
+        }
+        else{
+            index++;
+        }
+        temp = temp->next;
+    }
+    if(flag == 0){
+        return -1;
+    }
+}
+
+Node *appendLastToFirst(Node *head, int n){
+    if(n == 0 || head == NULL){
+        return head;
+    }
+    Node *slow = head;
+    Node *fast = head;
+    Node *initialHead = head;
+    for (int i = 0; i < n; i++){
+        fast = fast->next;
+    }
+    while(fast -> next != NULL){
+        slow = slow->next;
+        fast = fast->next;
+    }
+    Node *temp = slow->next;
+    slow->next = NULL;
+    fast->next = initialHead;
+    head = temp;
+    return head;
+}
+
+Node* removeDuplicates(Node *head){
+    if(head == NULL){
+        return head;
+    }
+
+    Node *temp = head;
+    while(temp -> next != NULL){
+        if(temp -> data == temp -> next -> data){
+            temp = temp->next->next;
+        }
+        else{
+            temp = temp->next;
+        }
+        head = temp;
+        return head;
+    }
+}
+
+Node * midNode(Node* head){
+    if(head == NULL){
+        return head;
+    }
+    Node *slow = head;
+    Node *fast = head->next;
+    while(fast != NULL && fast -> next != NULL){
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
+}
+Node *sortedLinkedList(Node *head1, Node *head2){
+    Node *head = NULL;
+    Node *tail = NULL;
+    if(head1 -> data <= head2 -> data){
+        head = head1;
+        tail =  head1;
+        head1 = head1->next;
+    }
+    else{
+        head = head2;
+        tail = head2;
+        head2 = head2->next;
+    }
+    while (head1 != NULL && head2 != NULL)
+    {
+         if(head1 -> data <= head2 -> data){
+             tail->next = head1;
+             tail = tail->next;
+             head1 = head1->next;
+         }
+         else{
+             tail->next = head2;
+             tail = tail->next;
+             head2 = head2 ->next;
+         }
+    }
+    if(head1 == NULL){
+        tail->next = head2;
+    }
+    if(head2 == NULL){
+        tail ->next = head1;
+    }
+    return head;
+}
+Node *reverse(Node *head){
+    if(head == NULL || head -> next == NULL){
+        return head;
+    }
+
+    Node *smallAns = reverse(head->next);
+    Node *temp = smallAns;
+    while(temp -> next != NULL){
+        temp = temp->next;
+    }
+    temp->next = head;
+    head->next = NULL;
+    return smallAns;
+}
+
+Node *reverseIterative(Node * head){
+    if(head == NULL){
+        return head;
+    }
+
+    Node *prevoius = NULL;
+    Node *current = head;
+    Node *next = head->next;
+
+    while(current != NULL){
+        next = current->next;
+        current->next = prevoius;
+        prevoius = current;
+        current = next;
+    }
+    return prevoius;
+}
+int main()
+{
+
+    // Node *head = input();
+
+    Node *head = input();
+    head = reverseIterative(head);
+    print(head);
+    // Node *head2 = input();
+    // Node *head = sortedLinkedList(head1, head2);
+    // print(head);
+    // print(head);
+    // cout << endl;
+    // Node* mid = midNode(head);
+    // cout << mid->data;
+    // int n;
+    // cin >> n;
+    // head = appendLastToFirst(head, n);
+    // print(head);
+    // cout << endl;
+    // head = removeDuplicates(head);
+    // print(head);
+    // int node = findNode(head, 6);
+    // cout << node << endl;
+    // print(head);
+    // cout << endl;
+    // head = insertNodeRecursive(head, 23, 0);
+    // print(head);
+
+    //  int length = recursiveLength(head);
+    //cout << length << endl;
+    // head = deleteNode(head, 7);
+    // print(head);
+
+    /*
+    Node *head = input();
+    //  print(head);
+    int count = length(head);
+    //cout <<"\n" << count << endl;
+
+    //cout << endl
+    //   << endl;
+    print(head, 3);
+/*
+    /*
+    Node *n1 = new Node(10);
+    Node *head = n1;
+    Node *n2 = new Node(20);
+    n1->next = n2;
+    Node *n3 = new Node(30);
+    n2->next = n3;
+    Node *n4 = new Node(40);
+    n3->next = n4;
+    Node *n5 = new Node(50);
+    n4->next = n5;
+    print(head);
+*/
+    /*
+    Node n1(10);
+    Node *head = &n1;
+    Node n2(20);
+    n1.next = &n2;
+    cout << n1.data << " " << n2.data << endl;
+    cout << head->data << endl;
+*/
+}
